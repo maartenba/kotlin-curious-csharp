@@ -26,7 +26,7 @@ namespace BelgianBeers
                 .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
                 .ToList();
             
-            // TODO: Find an API that returns somethign around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
+            // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
         }
 
         private static string DetermineDataPath(string fileName)
