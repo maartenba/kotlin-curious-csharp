@@ -1,2 +1,3 @@
-# kotlin-curious-csharp
-Demos for conference talk Kotlin for the Curious C# developer
+# Kotlin for the curious C# developer
+
+Demos for conference talk "Kotlin for the curious C# developer" by @maartenba and @jonnyzzz
