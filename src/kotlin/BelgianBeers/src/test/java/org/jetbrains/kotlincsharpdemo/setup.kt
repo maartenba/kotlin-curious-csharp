@@ -5,7 +5,7 @@ import java.io.File
 object TestData {
 
   fun determineDataPath(name: String): File {
-    return org.jetbrains.kotlincsharpdemo.determineDataPath(fileName = name)
+    return determineDataPath(fileName = name)
   }
 
   val beerWithNulls by lazy { determineDataPath("beerswithnulls.json") }
