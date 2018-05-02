@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using BelgianBeers.Models;
 using BelgianBeers.Repositories;
 using BelgianBeers.Tests.Utilities;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace BelgianBeers.Tests
 {
+    [Collection("Demo 2 - Filtering")]
     public class D02_Filtering
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -22,7 +24,7 @@ namespace BelgianBeers.Tests
         public void LinqDsl()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = BeersRepository.FromFile(sourceData);
+            var repository = CreateRepositoryFromFile(sourceData);
             
             // Filtering data with a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = from beer in repository.GetBeers()
@@ -36,7 +38,7 @@ namespace BelgianBeers.Tests
         public void LinqMethods()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = BeersRepository.FromFile(sourceData);
+            var repository = CreateRepositoryFromFile(sourceData);
             
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = repository.GetBeers()
@@ -52,7 +54,7 @@ namespace BelgianBeers.Tests
         public void PatternMatching()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = BeersRepository.FromFile(sourceData);
+            var repository = CreateRepositoryFromFile(sourceData);
             
             // Get beers that are from brewery "Westmalle"
             // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
@@ -84,7 +86,7 @@ namespace BelgianBeers.Tests
         public void Statistics()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = BeersRepository.FromFile(sourceData);
+            var repository = CreateRepositoryFromFile(sourceData);
             
             // Statistics:
 
@@ -100,6 +102,26 @@ namespace BelgianBeers.Tests
             }
             
             Assert.True(topRatedBreweries.Any());
+        }
+        
+        private static BeersRepository CreateRepositoryFromFile([PathReference] string file)
+        {
+            var repository = new BeersRepository();
+
+            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
+            {
+                // Store the brewery
+                var brewery = !string.IsNullOrEmpty(breweryName)
+                    ? new Brewery(breweryName)
+                    : null;
+                repository.AddBrewery(brewery);
+
+                // Store the beer
+                var beer = new Beer(beerName, brewery, rating, votes);
+                repository.AddBeer(beer);
+            }
+            
+            return repository;
         }
     }
 }
