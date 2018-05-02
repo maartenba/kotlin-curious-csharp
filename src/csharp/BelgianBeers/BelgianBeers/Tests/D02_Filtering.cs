@@ -1,33 +1,58 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BelgianBeers.Models;
 using BelgianBeers.Repositories;
+using BelgianBeers.Tests.Utilities;
+using Xunit;
+using Xunit.Abstractions;
 
-namespace BelgianBeers
+namespace BelgianBeers.Tests
 {
-    class Program
+    public class D02_Filtering
     {
-        static async Task Main(string[] args)
-        {
-            var sourceData = DetermineDataPath("beerswithnulls.json");
+        private readonly ITestOutputHelper _outputHelper;
 
+        public D02_Filtering(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+        }
+        
+        [Fact]
+        public async Task LinqDsl()
+        {
+            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
             var repository = await BeersRepository.FromFile(sourceData);
             
-            // Filtering data:
-
-            // Get beers with a rating > .50, and at least 10 votes for relevance (LINQ DSL)
-            var beersWithOkayRatingDsl = from beer in repository.GetBeers()
+            // Filtering data with a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
+            var beersWithOkayRating = from beer in repository.GetBeers()
                 where beer.Rating > .50 && beer.Votes >= 10
                 select beer;
             
-            // Get beers with a rating > .50, and at least 10 votes for relevance
+            Assert.True(beersWithOkayRating.Any());
+        }
+        
+        [Fact]
+        public async Task LinqMethods()
+        {
+            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
+            var repository = await BeersRepository.FromFile(sourceData);
+            
+            // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = repository.GetBeers()
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
             
             // TODO DEMO: So many allocations - check in IL, mention https://github.com/antiufo/roslyn-linq-rewrite
+            
+            Assert.True(beersWithOkayRating.Any());
+        }
+        
+        [Fact]
+        public async Task PatternMatching()
+        {
+            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
+            var repository = await BeersRepository.FromFile(sourceData);
             
             // Get beers that are from brewery "Westmalle"
             // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
@@ -36,22 +61,30 @@ namespace BelgianBeers
                 .ToList();
             
             // Pattern matching (on a property, not on type):
-            
             foreach (var westmalleBeer in westmalleBeers)
             {
                 switch (westmalleBeer)
                 {
                     case DubbelBeer dubbelBeer:
                         // It is a dubbel
-                        Console.WriteLine(dubbelBeer.Name);
+                        _outputHelper.WriteLine(dubbelBeer.Name);
                         break;
                     
                     case TripelBeer tripelBeer when westmalleBeer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0:
                         // It is a tripel
-                        Console.WriteLine(tripelBeer.Name);
+                        _outputHelper.WriteLine(tripelBeer.Name);
                         break;
                 }
             }
+            
+            Assert.True(westmalleBeers.Any());
+        }
+        
+        [Fact]
+        public async Task Statistics()
+        {
+            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
+            var repository = await BeersRepository.FromFile(sourceData);
             
             // Statistics:
 
@@ -60,26 +93,13 @@ namespace BelgianBeers
                 group beer by beer.Brewery into beersPerBrewery
                 orderby beersPerBrewery.Average(beer => beer.Rating) descending
                 select beersPerBrewery.Key;
-            
+
             foreach (var brewery in topRatedBreweries.Take(10))
             {
-                Console.WriteLine(brewery.Name);
+                _outputHelper.WriteLine(brewery.Name);
             }
             
-            // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
-        }
-
-        static string DetermineDataPath(string fileName, string basePath = null)
-        {
-            if (basePath == null) basePath = Path.GetFullPath(Directory.GetCurrentDirectory());
-            var data = Path.Combine(basePath, "data", fileName);
-
-            if (File.Exists(data)) return data;
-
-            return DetermineDataPath(
-                basePath: Path.Combine(basePath, ".."),
-                fileName: fileName
-            );
+            Assert.True(topRatedBreweries.Any());
         }
     }
 }
