@@ -15,10 +15,18 @@ namespace BelgianBeers
             var repository = await BeersRepository.FromFile(sourceData);
             
             // Filtering data:
+
+            // Get beers with a rating > .50, and at least 10 votes for relevance (LINQ DSL)
+            var beersWithOkayRatingDsl = from beer in repository.GetBeers()
+                where beer.Rating > .50 && beer.Votes >= 10
+                select beer;
+            
             // Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = repository.GetBeers()
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
+            
+            // TODO DEMO: So many allocations - check in IL, mention https://github.com/antiufo/roslyn-linq-rewrite
             
             // Get beers that are from brewery "Westmalle"
             // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
