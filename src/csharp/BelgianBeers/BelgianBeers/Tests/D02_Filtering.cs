@@ -1,22 +1,12 @@
-﻿using System;
-using System.Linq;
-using BelgianBeers.Models;
+﻿using System.Linq;
 using BelgianBeers.Tests.Utilities;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace BelgianBeers.Tests
 {
     [Collection("Demo 2 - Filtering")]
     public class D02_Filtering
     {
-        private readonly ITestOutputHelper _outputHelper;
-
-        public D02_Filtering(ITestOutputHelper outputHelper)
-        {
-            _outputHelper = outputHelper;
-        }
-        
         [Fact]
         public void LinqDsl()
         {
@@ -24,10 +14,10 @@ namespace BelgianBeers.Tests
             var beersWithOkayRating = from beer in TestData.BeerFlow
                 where beer.Rating > .50 && beer.Votes >= 10
                 select beer;
-            
+
             Assert.True(beersWithOkayRating.Any());
         }
-        
+
         [Fact]
         public void LinqMethods()
         {
@@ -35,57 +25,10 @@ namespace BelgianBeers.Tests
             var beersWithOkayRating = TestData.BeerFlow
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
-            
+
             // TODO DEMO: So many allocations - check in IL, mention https://github.com/antiufo/roslyn-linq-rewrite
-            
+
             Assert.True(beersWithOkayRating.Any());
         }
-        
-        [Fact]
-        public void PatternMatching()
-        {
-            // Get beers that are from brewery "Westmalle"
-            // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
-            var westmalleBeers = TestData.BeerFlow
-                .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-            
-            // Pattern matching (on a property, not on type):
-            foreach (var westmalleBeer in westmalleBeers)
-            {
-                switch (westmalleBeer)
-                {
-                    case DubbelBeer dubbelBeer:
-                        // It is a dubbel
-                        _outputHelper.WriteLine(dubbelBeer.Name);
-                        break;
-                    
-                    case TripelBeer tripelBeer when westmalleBeer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0:
-                        // It is a tripel
-                        _outputHelper.WriteLine(tripelBeer.Name);
-                        break;
-                }
-            }
-            
-            Assert.True(westmalleBeers.Any());
-        }
-        
-        [Fact]
-        public void Statistics()
-        {
-            // Statistics:
-            var topRatedBreweries = from beer in TestData.BeerFlow
-                where beer.Brewery != null
-                group beer by beer.Brewery into beersPerBrewery
-                orderby beersPerBrewery.Average(beer => beer.Rating) descending
-                select beersPerBrewery.Key;
-
-            foreach (var brewery in topRatedBreweries.Take(10))
-            {
-                _outputHelper.WriteLine(brewery.Name);
-            }
-            
-            Assert.True(topRatedBreweries.Any());
-        }
-            }
+    }
 }
