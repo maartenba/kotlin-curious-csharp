@@ -6,10 +6,8 @@ plugins {
 }
 
 dependencies {
-  compile(kotlin("stdlib"))
+  compile(kotlin("stdlib-jdk8"))
   compile(kotlin("reflect"))
-
-  compile("org.jetbrains.kotlinx:kotlinx-support-jdk8:0.3")
 
 
   compile("com.fasterxml.jackson.core:jackson-core:2.9.4")
