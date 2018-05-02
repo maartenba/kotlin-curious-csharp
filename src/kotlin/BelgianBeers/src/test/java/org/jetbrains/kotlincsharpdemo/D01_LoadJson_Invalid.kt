@@ -2,7 +2,7 @@ package org.jetbrains.kotlincsharpdemo
 
 import org.junit.Test
 
-class D02_loadInvalidJSON {
+class D01_LoadJson_Invalid {
 
 
   @Test
