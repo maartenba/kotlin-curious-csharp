@@ -39,4 +39,24 @@ namespace BelgianBeers.Models
             }
         }
     }
+    
+    #region Beer specialties
+    
+    public class TripelBeer : Beer
+    {
+        public TripelBeer(string name, Brewery brewery, double rating, double votes) 
+            : base(name, brewery, rating, votes)
+        {
+        }
+    }
+
+    public class DubbelBeer : Beer
+    {
+        public DubbelBeer(string name, Brewery brewery, double rating, double votes) 
+            : base(name, brewery, rating, votes)
+        {
+        }
+    }
+    
+    #endregion
 }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BelgianBeers.Models;
 using BelgianBeers.Repositories;
 
 namespace BelgianBeers
@@ -33,6 +34,24 @@ namespace BelgianBeers
             var westmalleBeers = repository.GetBeers()
                 .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
                 .ToList();
+            
+            // Pattern matching (on a property, not on type):
+            
+            foreach (var westmalleBeer in westmalleBeers)
+            {
+                switch (westmalleBeer)
+                {
+                    case DubbelBeer dubbelBeer when westmalleBeer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0:
+                        // It is a dubbel
+                        Console.WriteLine(dubbelBeer.Name);
+                        break;
+                    
+                    case TripelBeer tripelBeer when westmalleBeer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0:
+                        // It is a tripel
+                        Console.WriteLine(tripelBeer.Name);
+                        break;
+                }
+            }
             
             // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
         }

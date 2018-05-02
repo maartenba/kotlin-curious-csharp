@@ -138,6 +138,15 @@ namespace BelgianBeers.Repositories
 
         public void AddBeer(Beer beer)
         {
+            if (beer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                beer = new DubbelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+            else if (beer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                beer = new TripelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+            
             _beers.Add(beer);
         }
     }
