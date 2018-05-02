@@ -6,7 +6,7 @@ import org.junit.Assert
 
 import org.junit.Test
 
-class D01_LoadJson_Approach1x {
+class D01_LoadJson_Approach1_v1 {
   @Test
   fun load() {
     val breweries = mutableMapOf<Brewery, Brewery>()
