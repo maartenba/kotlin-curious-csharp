@@ -6,6 +6,7 @@ using Xunit;
 
 namespace BelgianBeers.Tests
 {
+    [Collection("Not part of demo")]
     public class D99_FilteringValueTuple
     {
         [Fact]
