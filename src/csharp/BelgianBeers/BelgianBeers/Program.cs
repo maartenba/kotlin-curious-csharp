@@ -41,7 +41,7 @@ namespace BelgianBeers
             {
                 switch (westmalleBeer)
                 {
-                    case DubbelBeer dubbelBeer when westmalleBeer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0:
+                    case DubbelBeer dubbelBeer:
                         // It is a dubbel
                         Console.WriteLine(dubbelBeer.Name);
                         break;
@@ -51,6 +51,19 @@ namespace BelgianBeers
                         Console.WriteLine(tripelBeer.Name);
                         break;
                 }
+            }
+            
+            // Statistics:
+
+            var topRatedBreweries = from beer in repository.GetBeers()
+                where beer.Brewery != null
+                group beer by beer.Brewery into beersPerBrewery
+                orderby beersPerBrewery.Average(beer => beer.Rating) descending
+                select beersPerBrewery.Key;
+            
+            foreach (var brewery in topRatedBreweries.Take(10))
+            {
+                Console.WriteLine(brewery.Name);
             }
             
             // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
