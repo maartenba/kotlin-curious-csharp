@@ -11,6 +11,11 @@ namespace BelgianBeers.Models
         
         public string Name { get; }
 
+        public void Deconstruct(out string name)
+        {
+            name = Name;
+        }
+
         protected bool Equals(Brewery other)
         {
             return string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase);

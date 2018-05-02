@@ -9,10 +9,10 @@ namespace BelgianBeers.Tests
     public class D01_LoadJson
     {
         [Fact]
-        public async Task LoadsDataFromJsonFile()
+        public void LoadsDataFromJsonFile()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = await BeersRepository.FromFile(sourceData);
+            var repository = BeersRepository.FromFile(sourceData);
             
             Assert.True(repository.GetBeers().Any());
         }

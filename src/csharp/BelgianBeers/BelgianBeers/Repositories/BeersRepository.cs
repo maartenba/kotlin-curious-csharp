@@ -16,17 +16,12 @@ namespace BelgianBeers.Repositories
         private readonly HashSet<Brewery> _breweries = new HashSet<Brewery>();
         private readonly HashSet<Beer> _beers = new HashSet<Beer>();
 
-        public static async Task<BeersRepository> FromFile([PathReference] string file)
+        public static BeersRepository FromFile([PathReference] string file)
         {
             var repository = new BeersRepository();
 
-            BeersStream.FromFile(file, beer =>
+            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
             {
-                var breweryName = beer.Brewery.Name;
-                var beerName = beer.Name;
-                var rating = beer.Rating;
-                var votes = beer.Votes;
-                
                 #region Bad approach - No nulls in data
 
                 // Store the brewery
@@ -40,8 +35,10 @@ namespace BelgianBeers.Repositories
 
                 // Store the beer
                 // TODO DEMO: This get/add is needed to ensure no duplicates, however we could again do a GetHashCode() instead
-                if (repository.GetBeer(beer.Name) == null)
+                var beer = repository.GetBeer(beerName);
+                if (beer == null)
                 {
+                    beer = new Beer(beerName, brewery, rating, votes);
                     repository.AddBeer(beer);
                 }
 
@@ -88,7 +85,7 @@ namespace BelgianBeers.Repositories
 //                        repository.AddBeer(beer);
 
                 #endregion
-            });
+            };
             
             
             return repository;

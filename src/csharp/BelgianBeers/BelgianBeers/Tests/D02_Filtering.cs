@@ -19,10 +19,10 @@ namespace BelgianBeers.Tests
         }
         
         [Fact]
-        public async Task LinqDsl()
+        public void LinqDsl()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = await BeersRepository.FromFile(sourceData);
+            var repository = BeersRepository.FromFile(sourceData);
             
             // Filtering data with a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = from beer in repository.GetBeers()
@@ -33,10 +33,10 @@ namespace BelgianBeers.Tests
         }
         
         [Fact]
-        public async Task LinqMethods()
+        public void LinqMethods()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = await BeersRepository.FromFile(sourceData);
+            var repository = BeersRepository.FromFile(sourceData);
             
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
             var beersWithOkayRating = repository.GetBeers()
@@ -49,10 +49,10 @@ namespace BelgianBeers.Tests
         }
         
         [Fact]
-        public async Task PatternMatching()
+        public void PatternMatching()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = await BeersRepository.FromFile(sourceData);
+            var repository = BeersRepository.FromFile(sourceData);
             
             // Get beers that are from brewery "Westmalle"
             // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
@@ -81,10 +81,10 @@ namespace BelgianBeers.Tests
         }
         
         [Fact]
-        public async Task Statistics()
+        public void Statistics()
         {
             var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = await BeersRepository.FromFile(sourceData);
+            var repository = BeersRepository.FromFile(sourceData);
             
             // Statistics:
 

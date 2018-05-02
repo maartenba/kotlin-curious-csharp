@@ -18,6 +18,22 @@ namespace BelgianBeers.Models
         public double Rating { get; }
         public double Votes { get; }
 
+        public void Deconstruct(out string name, out Brewery brewery, out double rating, out double votes)
+        {
+            name = Name;
+            brewery = Brewery;
+            rating = Rating;
+            votes = Votes;
+        }
+
+        public void Deconstruct(out string name, out string brewery, out double rating, out double votes)
+        {
+            name = Name;
+            brewery = Brewery?.Name;
+            rating = Rating;
+            votes = Votes;
+        }
+
         protected bool Equals(Beer other)
         {
             return string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase) && Equals(Brewery, other.Brewery);

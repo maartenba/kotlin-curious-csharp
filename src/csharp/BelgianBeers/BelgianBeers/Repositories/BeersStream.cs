@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using BelgianBeers.Models;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -11,7 +9,7 @@ namespace BelgianBeers.Repositories
 {
     public static class BeersStream
     {
-        public static async void FromFile([PathReference] string file, Action<Beer> callback)
+        public static IEnumerable<(string beerName, string breweryName, double rating, double votes)> FromFile([PathReference] string file)
         {
             if (!File.Exists(file))
             {
@@ -20,7 +18,7 @@ namespace BelgianBeers.Repositories
 
             using (var reader = new JsonTextReader(new StreamReader(File.OpenRead(file))))
             {
-                while (await reader.ReadAsync())
+                while (reader.Read())
                 {
                     if (reader.TokenType == JsonToken.StartObject)
                     {
@@ -32,8 +30,40 @@ namespace BelgianBeers.Repositories
                         var rating = beerData.Value<double>("rating");
                         var votes = beerData.Value<double>("votes");
 
-                        var beer = new Beer(beerName, new Brewery(breweryName), rating, votes);
-                        callback(beer);
+                        yield return (beerName, breweryName, rating, votes);
+                    }
+                }
+            }
+        }
+        
+        public static IEnumerable<Beer> FromFileAsBeers([PathReference] string file)
+        {
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException("Data file not found.", file);
+            }
+
+            using (var reader = new JsonTextReader(new StreamReader(File.OpenRead(file))))
+            {
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.StartObject)
+                    {
+                        // Load data from the stream
+                        var beerData = JObject.Load(reader);
+
+                        var breweryName = beerData.Value<string>("brewery");
+                        var beerName = beerData.Value<string>("name");
+                        var rating = beerData.Value<double>("rating");
+                        var votes = beerData.Value<double>("votes");
+
+                        yield return new Beer(
+                            beerName, 
+                            !string.IsNullOrEmpty(breweryName) 
+                                ? new Brewery(breweryName)
+                                : null, 
+                            rating,
+                            votes);
                     }
                 }
             }
