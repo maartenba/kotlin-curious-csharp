@@ -11,6 +11,10 @@ class BeersRepository {
   private val _breweries = HashSet<Brewery>()
   private val _beers = HashSet<Beer>()
 
+  companion object {
+    fun fromFile(file: File) = BeersRepository()
+  }
+
   fun GetBrewery(breweryName: String): Brewery? {
     return _breweries.firstOrNull { brewery ->
       breweryName.equals(brewery.Name, ignoreCase = true)
