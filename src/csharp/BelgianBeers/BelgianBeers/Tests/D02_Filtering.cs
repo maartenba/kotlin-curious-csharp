@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using BelgianBeers.Models;
-using BelgianBeers.Repositories;
 using BelgianBeers.Tests.Utilities;
-using JetBrains.Annotations;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,11 +20,8 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LinqDsl()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-            
             // Filtering data with a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = from beer in repository.GetBeers()
+            var beersWithOkayRating = from beer in TestData.BeerFlow
                 where beer.Rating > .50 && beer.Votes >= 10
                 select beer;
             
@@ -37,11 +31,8 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LinqMethods()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-            
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = repository.GetBeers()
+            var beersWithOkayRating = TestData.BeerFlow
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
             
@@ -53,12 +44,9 @@ namespace BelgianBeers.Tests
         [Fact]
         public void PatternMatching()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-            
             // Get beers that are from brewery "Westmalle"
             // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
-            var westmalleBeers = repository.GetBeers()
+            var westmalleBeers = TestData.BeerFlow
                 .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
                 .ToList();
             
@@ -85,12 +73,8 @@ namespace BelgianBeers.Tests
         [Fact]
         public void Statistics()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-            
             // Statistics:
-
-            var topRatedBreweries = from beer in repository.GetBeers()
+            var topRatedBreweries = from beer in TestData.BeerFlow
                 where beer.Brewery != null
                 group beer by beer.Brewery into beersPerBrewery
                 orderby beersPerBrewery.Average(beer => beer.Rating) descending
@@ -103,25 +87,5 @@ namespace BelgianBeers.Tests
             
             Assert.True(topRatedBreweries.Any());
         }
-        
-        private static BeersRepository CreateRepositoryFromFile([PathReference] string file)
-        {
-            var repository = new BeersRepository();
-
-            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
-            {
-                // Store the brewery
-                var brewery = !string.IsNullOrEmpty(breweryName)
-                    ? new Brewery(breweryName)
-                    : null;
-                repository.AddBrewery(brewery);
-
-                // Store the beer
-                var beer = new Beer(beerName, brewery, rating, votes);
-                repository.AddBeer(beer);
             }
-            
-            return repository;
-        }
-    }
 }
