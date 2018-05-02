@@ -8,5 +8,8 @@ object TestData {
     return org.jetbrains.kotlincsharpdemo.determineDataPath(fileName = name)
   }
 
-  val beerWwithNulls by lazy { determineDataPath("beerswithnulls.json") }
+  val beerWithNulls by lazy { determineDataPath("beerswithnulls.json") }
+
+  val beerFlow get() = BeersStream.fromFile(beerWithNulls)
+
 }
