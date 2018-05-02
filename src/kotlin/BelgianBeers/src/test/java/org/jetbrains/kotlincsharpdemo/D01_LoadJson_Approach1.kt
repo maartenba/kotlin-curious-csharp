@@ -10,19 +10,17 @@ class D01_LoadJson_Approach1 {
 
   @Test
   fun load() {
-    val breweries = mutableMapOf<String, Brewery>()
-    val beerNames = mutableSetOf<String>()
-    val beers = mutableListOf<Beer>()
+    val breweries = mutableMapOf<Brewery, Brewery>()
+    val beers = LinkedHashSet<Beer>()
 
     for ((beerName, breweryName, rating, votes) in fromFile(beerWithNulls)) {
       if (beerName == null) continue
 
-      if (!beerNames.add(beerName)) continue
-
       val brewery = if (breweryName == null) {
         null
       } else {
-        breweries.getOrPut(breweryName) { Brewery(breweryName) }
+        val b = Brewery(breweryName)
+        breweries.getOrPut(b) { b }
       }
 
       beers += Beer(beerName, brewery, rating ?: 0.0, votes ?: 0.0)

@@ -9,7 +9,7 @@ import org.junit.Test
 class D01_LoadJson_Approach1xx {
   @Test
   fun load() {
-    val breweries = mutableMapOf<String, Brewery>()
+    val breweries = mutableMapOf<Brewery, Brewery>()
     val beerNames = mutableSetOf<String>()
 
     val beers = fromFile(beerWithNulls).mapNotNull { (beerName, breweryName, rating, votes) ->
@@ -20,11 +20,7 @@ class D01_LoadJson_Approach1xx {
 
         else -> Beer(
                 Name = beerName,
-                Brewery = if (breweryName == null) {
-                  null
-                } else {
-                  breweries.getOrPut(breweryName) { Brewery(breweryName) }
-                },
+                Brewery = breweryName?.let { Brewery(it) }?.let { breweries.getOrPut(it) { it } },
                 Rating = rating ?: 0.0,
                 Votes = votes ?: 0.0)
 
