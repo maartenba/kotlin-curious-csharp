@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
   // Get beers that are from brewery "Westmalle"
   // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
   val westmalleBeers = repository.GetBeers()
-          .Where{beer -> "Brouwerij der Trappisten van Westmalle".equals(beer.Brewery.Name, ignoreCase = true)}
+          .Where{beer -> "Brouwerij der Trappisten van Westmalle".equals(beer.Brewery?.Name, ignoreCase = true)}
           .ToList()
 
   // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
