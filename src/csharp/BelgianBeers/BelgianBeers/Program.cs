@@ -37,15 +37,17 @@ namespace BelgianBeers
             // TODO: Find an API that returns something around beer, so we can e.g. fetch images. Maybe Google Image API? Other?
         }
 
-        private static string DetermineDataPath(string fileName)
+        static string DetermineDataPath(string fileName, string basePath = null)
         {
-            var sourceData = Path.GetFullPath("..\\..\\..\\..\\data\\" + fileName);
-            if (!File.Exists(sourceData))
-            {
-                throw new FileNotFoundException("Data file not found.");
-            }
+            if (basePath == null) basePath = Path.GetFullPath(Directory.GetCurrentDirectory());
+            var data = Path.Combine(basePath, "data", fileName);
 
-            return sourceData;
+            if (File.Exists(data)) return data;
+
+            return DetermineDataPath(
+                basePath: Path.Combine(basePath, ".."),
+                fileName: fileName
+            );
         }
     }
 }

@@ -2,6 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelgianBeers", "BelgianBeers\BelgianBeers.csproj", "{B10F7159-2DA2-423D-899C-6DA8EB5EC5F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder1", "SolutionFolder1", "{3AD981FA-8DED-4A71-B0DB-45B8206E5817}"
+ProjectSection(SolutionItems) = preProject
+	..\..\kotlin\BelgianBeers\build.gradle.kts = ..\..\kotlin\BelgianBeers\build.gradle.kts
+	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\breers-repository.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\breers-repository.kt
+	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\main.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\main.kt
+	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\model.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\model.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\test.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\test.kt
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
