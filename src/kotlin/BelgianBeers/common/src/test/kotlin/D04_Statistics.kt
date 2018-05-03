@@ -1,7 +1,5 @@
-package org.jetbrains.kotlincsharpdemo
-
 import org.jetbrains.kotlincsharpdemo.TestData.beerFlow
-import org.junit.Test
+import kotlin.test.Test
 
 class D04_Statistics {
 

@@ -1,22 +1,9 @@
 package org.jetbrains.kotlincsharpdemo
 
-import java.io.File
 
 object TestData {
-
-  tailrec fun determineDataPath(fileName: String,
-                                base: File = File("").canonicalFile): File {
-
-    val data = File(base, "data/$fileName")
-    if (data.isFile) return data
-
-    return determineDataPath(
-            fileName = fileName,
-            base = base.parentFile ?: error("Failed to find data $fileName"))
-  }
-
-  val beers : Sequence<BeerItem>
-    get() = BeersStream.fromFile(determineDataPath("beerswithnulls.json"))
+  val beers: Sequence<BeerItem>
+    get() = TestDataPlatform.beers
 
   val beerFlow: Sequence<Beer>
     get() {
@@ -32,4 +19,9 @@ object TestData {
         }
       }
     }
+}
+
+
+expect object TestDataPlatform {
+  val beers: Sequence<BeerItem>
 }

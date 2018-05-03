@@ -1,9 +1,11 @@
-package org.jetbrains.kotlincsharpdemo
-
-import org.junit.Assert
-import org.junit.Test
+import org.jetbrains.kotlincsharpdemo.Beer
+import org.jetbrains.kotlincsharpdemo.Brewery
+import org.jetbrains.kotlincsharpdemo.TestData
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class D01_LoadJson_Approach1_v2 {
+
   @Test
   fun load() {
     val breweries = mutableMapOf<Brewery, Brewery>()
@@ -24,6 +26,6 @@ class D01_LoadJson_Approach1_v2 {
       }
     }.toList()
 
-    Assert.assertTrue(beers.any())
+    assertTrue(beers.any())
   }
 }

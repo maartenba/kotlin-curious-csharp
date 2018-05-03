@@ -4,7 +4,6 @@ import org.junit.Test
 
 class D01_LoadJson_Invalid {
 
-
   @Test
   fun testObject() {
     BeersStream.fromString("{}")

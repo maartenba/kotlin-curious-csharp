@@ -1,20 +1,22 @@
-package org.jetbrains.kotlincsharpdemo
+import org.jetbrains.kotlincsharpdemo.Beer
+import org.jetbrains.kotlincsharpdemo.TestData
+import kotlin.test.Test
 
-import org.junit.Test
+sealed class BeerWithTaste(val beer: Beer)
 
-sealed class BeerWithTaste(val beer: Beer) {
-  override fun toString(): String {
-    return "${javaClass.simpleName}($beer)"
-  }
+class JustBeer(beer: Beer) : BeerWithTaste(beer) {
+  override fun toString() = "JustBeer($beer)"
 }
-
-class JustBeer(beer: Beer) : BeerWithTaste(beer)
 
 class DubbelBeer(beer: Beer) : BeerWithTaste(beer) {
   val dubbelName get() = beer.Name
+  override fun toString() = "BubbelBeer($beer)"
 }
 
-class TrippelBeer(beer: Beer) : BeerWithTaste(beer)
+class TrippelBeer(beer: Beer) : BeerWithTaste(beer) {
+  override fun toString() = "TrippelBeer($beer)"
+}
+
 val TrippelBeer.tripperName get() = beer.Name
 
 fun tasteBeer(beer: Beer): BeerWithTaste {

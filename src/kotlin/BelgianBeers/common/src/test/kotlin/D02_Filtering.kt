@@ -1,7 +1,7 @@
-package org.jetbrains.kotlincsharpdemo
-
-import org.junit.Assert
-import org.junit.Test
+import org.jetbrains.kotlincsharpdemo.Beer
+import org.jetbrains.kotlincsharpdemo.TestData
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class D02_Filtering {
   @Test
@@ -21,7 +21,7 @@ class D02_Filtering {
                     .filter { it.Rating > .50 && it.Votes >= 10 }
                     .toList()
 
-    Assert.assertTrue(beersWithOkayRating.any());
+    assertTrue(beersWithOkayRating.any());
   }
 
 
@@ -41,9 +41,8 @@ class D02_Filtering {
                     .filterBeer { Rating > .50 && Votes >= 10 }
                     .toList()
 
-    Assert.assertTrue(beersWithOkayRating.any())
+    assertTrue(beersWithOkayRating.any())
   }
-
 
 
 
@@ -60,7 +59,7 @@ class D02_Filtering {
                     .filterBeer { `Rating is OK` and Popular }
                     .toList()
 
-    Assert.assertTrue(beersWithOkayRating.any())
+    assertTrue(beersWithOkayRating.any())
   }
 
 

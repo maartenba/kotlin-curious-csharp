@@ -1,7 +1,8 @@
-package org.jetbrains.kotlincsharpdemo
-
-import org.junit.Assert
-import org.junit.Test
+import org.jetbrains.kotlincsharpdemo.Beer
+import org.jetbrains.kotlincsharpdemo.Brewery
+import org.jetbrains.kotlincsharpdemo.TestData
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class D01_LoadJson_Approach1 {
 
@@ -23,6 +24,6 @@ class D01_LoadJson_Approach1 {
       beers += Beer(beerName, brewery, rating ?: 0.0, votes ?: 0.0)
     }
 
-    Assert.assertTrue(beers.any())
+    assertTrue(beers.any())
   }
 }

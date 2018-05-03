@@ -7,12 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import java.io.File
 import kotlin.coroutines.experimental.buildIterator
 
-data class BeerItem(
-        val name: String?,
-        val brewery: String?,
-        val rating: Double?,
-        val votes: Double?
-)
 
 object BeersStream {
 
