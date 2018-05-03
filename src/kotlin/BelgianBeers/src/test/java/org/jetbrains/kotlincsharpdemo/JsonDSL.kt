@@ -17,7 +17,7 @@ object JsonDSL {
     fun array(builder: JSONArrayBuilder.() -> Unit)
   }
 
-  fun build(builder : JsonRootBuilder.() -> Unit) : String {
+  fun json(builder : JsonRootBuilder.() -> Unit) : String {
     val om = ObjectMapper()
 
     lateinit var text : String

@@ -1,5 +1,6 @@
 package org.jetbrains.kotlincsharpdemo
 
+import org.jetbrains.kotlincsharpdemo.JsonDSL.json
 import org.junit.Test
 
 class D01_LoadJson_Invalid {
@@ -27,7 +28,7 @@ class D01_LoadJson_Invalid {
 
   @Test
   fun testDSLFields() {
-    val text = JsonDSL.build {
+    val text = json {
       array {
         obj {
           "name" % "Kotlin"
