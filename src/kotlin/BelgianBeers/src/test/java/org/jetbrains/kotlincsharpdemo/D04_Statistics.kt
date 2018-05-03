@@ -34,7 +34,7 @@ class D04_Statistics {
             .mapNotNull { it.key }
             .take(10)
             .forEachIndexed { idx, it ->
-              println("${idx.toString().padStart(5)}. ${it.Name}")
+              println("${idx.inc().toString().padStart(5)}. ${it.Name}")
             }
 
   }
