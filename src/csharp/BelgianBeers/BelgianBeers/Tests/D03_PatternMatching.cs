@@ -16,7 +16,22 @@ namespace BelgianBeers.Tests
         {
             _outputHelper = outputHelper;
         }
-       
+
+        private Beer PatchBeer(Beer beer)
+        {
+            if (beer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return new DubbelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+            
+            if (beer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return new TripelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+
+            return beer;
+        }
+        
         [Fact]
         public void PatternMatching()
         {
@@ -27,7 +42,7 @@ namespace BelgianBeers.Tests
                 .ToList();
             
             // Pattern matching (on a property, not on type):
-            foreach (var westmalleBeer in westmalleBeers)
+            foreach (var westmalleBeer in westmalleBeers.Select(PatchBeer))
             {
                 switch (westmalleBeer)
                 {

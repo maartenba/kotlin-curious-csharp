@@ -51,10 +51,11 @@ namespace BelgianBeers.Tests.Utilities
 
                     // Store the beer
                     var beer = new Beer(beerName, brewery, rating, votes);
-                    _beers.Add(beer);
+                    if (_beers.Add(beer))
+                    {
+                        yield return beer;
+                    }
                 }
-
-                return _beers;
             }
         }
     }
