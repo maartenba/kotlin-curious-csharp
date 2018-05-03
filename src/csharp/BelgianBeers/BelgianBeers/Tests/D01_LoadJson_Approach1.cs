@@ -2,7 +2,6 @@
 using BelgianBeers.Models;
 using BelgianBeers.Repositories;
 using BelgianBeers.Tests.Utilities;
-using JetBrains.Annotations;
 using Xunit;
 
 namespace BelgianBeers.Tests

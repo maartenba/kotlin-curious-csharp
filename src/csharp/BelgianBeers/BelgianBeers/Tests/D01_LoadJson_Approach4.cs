@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BelgianBeers.Models;
-using BelgianBeers.Tests.Utilities;
 using Xunit;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -15,7 +15,7 @@ namespace BelgianBeers.Tests
             var _breweries = new HashSet<Brewery>();
             var _beers = new HashSet<Beer>();
 
-            foreach (var (beerName, breweryName, rating, votes) in TestData.Beers)
+            foreach (var (beerName, breweryName, rating, votes) in Beers)
             {
                 // Store the brewery
                 // TODO DEMO: Null checks here are still a bit ugly

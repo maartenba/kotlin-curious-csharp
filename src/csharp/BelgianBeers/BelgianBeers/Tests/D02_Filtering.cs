@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using BelgianBeers.Tests.Utilities;
 using Xunit;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -11,7 +11,7 @@ namespace BelgianBeers.Tests
         public void LinqDsl()
         {
             // Filtering data with a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = from beer in TestData.BeerFlow
+            var beersWithOkayRating = from beer in BeerFlow
                 where beer.Rating > .50 && beer.Votes >= 10
                 select beer;
 
@@ -22,7 +22,7 @@ namespace BelgianBeers.Tests
         public void LinqMethods()
         {
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = TestData.BeerFlow
+            var beersWithOkayRating = BeerFlow
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
 

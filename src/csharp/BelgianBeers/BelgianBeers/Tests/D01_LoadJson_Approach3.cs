@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using BelgianBeers.Models;
 using BelgianBeers.Repositories;
-using BelgianBeers.Tests.Utilities;
-using JetBrains.Annotations;
 using Xunit;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -15,7 +14,7 @@ namespace BelgianBeers.Tests
         {
             var repository = new BeersRepository();
 
-            foreach (var (beerName, breweryName, rating, votes) in TestData.Beers)
+            foreach (var (beerName, breweryName, rating, votes) in Beers)
             {
                 // Store the brewery
                 // TODO DEMO: Null checks here are still a bit ugly
