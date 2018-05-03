@@ -30,7 +30,6 @@ class D02_Filtering {
 
 
 
-  fun Sequence<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
 
   @Test
   fun linqDSL_ex() {
@@ -44,23 +43,6 @@ class D02_Filtering {
     assertTrue(beersWithOkayRating.any())
   }
 
-
-
-
-
-  val Beer.`Rating is OK` get() = Rating > .50
-  val Beer.Popular get() = Votes > .50
-
-  @Test
-  fun linqDSL_ex2() {
-    val beersWithOkayRating =
-
-            TestData.beerFlow
-                    .filterBeer { `Rating is OK` and Popular }
-                    .toList()
-
-    assertTrue(beersWithOkayRating.any())
-  }
-
-
 }
+
+fun Sequence<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }

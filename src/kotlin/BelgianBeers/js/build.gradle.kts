@@ -12,7 +12,7 @@ dependencies {
 
 
   compile(kotlin("stdlib-js"))
-
+  testCompile(kotlin("test-js"))
 }
 
 
