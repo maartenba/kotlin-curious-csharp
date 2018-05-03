@@ -13,17 +13,9 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LoadsDataFromJsonFile()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-                
-            Assert.True(repository.GetBeers().Any());
-        }
-            
-        private static BeersRepository CreateRepositoryFromFile([PathReference] string file)
-        {
             var repository = new BeersRepository();
-    
-            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
+
+            foreach (var (beerName, breweryName, rating, votes) in TestData.Beers)
             {
                 // Store the brewery
                 // TODO DEMO: Null checks here are still a bit ugly
@@ -31,14 +23,13 @@ namespace BelgianBeers.Tests
                     ? new Brewery(breweryName)
                     : null;
                 repository.AddBrewery(brewery);
-                    
+
                 // Store the beer
                 var beer = new Beer(beerName, brewery, rating, votes);
                 repository.AddBeer(beer);
-            };
-                
-                
-            return repository;
+            }
+
+            Assert.True(repository.GetBeers().Any());
         }
     }
 }

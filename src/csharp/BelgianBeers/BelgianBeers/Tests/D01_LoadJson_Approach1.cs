@@ -13,17 +13,9 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LoadsDataFromJsonFile()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            var repository = CreateRepositoryFromFile(sourceData);
-
-            Assert.True(repository.GetBeers().Any());
-        }
-
-        private static BeersRepository CreateRepositoryFromFile([PathReference] string file)
-        {
             var repository = new BeersRepository();
 
-            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
+            foreach (var (beerName, breweryName, rating, votes) in TestData.Beers)
             {
                 // TODO DEMO: The get/add pattern is stupid! Add GetHashCode to Brewery() and just call .Add on the underlying hashset
 
@@ -44,8 +36,7 @@ namespace BelgianBeers.Tests
                 }
             }
 
-
-            return repository;
+            Assert.True(repository.GetBeers().Any());
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.IO;
 using BelgianBeers.Models;
 using BelgianBeers.Repositories;
-using JetBrains.Annotations;
 
 namespace BelgianBeers.Tests.Utilities
 {
@@ -21,35 +20,36 @@ namespace BelgianBeers.Tests.Utilities
             );
         }
 
+        public static IEnumerable<(string beerName, string breweryName, double rating, double votes)> Beers
+        {
+            get
+            {
+                var sourceData = DetermineDataPath("beerswithnulls.json");
+                return BeersStream.FromFile(sourceData);
+            }
+        }
+
         public static IEnumerable<Beer> BeerFlow
         {
             get
             {
-                var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-                var repository = CreateRepositoryFromFile(sourceData);
+                var repository = new BeersRepository();
+
+                foreach (var (beerName, breweryName, rating, votes) in Beers)
+                {
+                    // Store the brewery
+                    var brewery = !string.IsNullOrEmpty(breweryName)
+                        ? new Brewery(breweryName)
+                        : null;
+                    repository.AddBrewery(brewery);
+
+                    // Store the beer
+                    var beer = new Beer(beerName, brewery, rating, votes);
+                    repository.AddBeer(beer);
+                }
+
                 return repository.GetBeers();
             }
         }
-        
-        private static BeersRepository CreateRepositoryFromFile([PathReference] string file)
-        {
-            var repository = new BeersRepository();
-
-            foreach (var (beerName, breweryName, rating, votes) in BeersStream.FromFile(file))
-            {
-                // Store the brewery
-                var brewery = !string.IsNullOrEmpty(breweryName)
-                    ? new Brewery(breweryName)
-                    : null;
-                repository.AddBrewery(brewery);
-
-                // Store the beer
-                var beer = new Beer(beerName, brewery, rating, votes);
-                repository.AddBeer(beer);
-            }
-            
-            return repository;
-        }
-
     }
 }
