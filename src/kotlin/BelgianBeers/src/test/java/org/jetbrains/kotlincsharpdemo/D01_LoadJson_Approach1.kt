@@ -1,9 +1,6 @@
 package org.jetbrains.kotlincsharpdemo
 
-import org.jetbrains.kotlincsharpdemo.BeersStream.fromFile
-import org.jetbrains.kotlincsharpdemo.TestData.beerWithNulls
 import org.junit.Assert
-
 import org.junit.Test
 
 class D01_LoadJson_Approach1 {
@@ -13,7 +10,7 @@ class D01_LoadJson_Approach1 {
     val breweries = mutableMapOf<Brewery, Brewery>()
     val beers = LinkedHashSet<Beer>()
 
-    for ((beerName, breweryName, rating, votes) in fromFile(beerWithNulls)) {
+    for ((beerName, breweryName, rating, votes) in TestData.beers) {
       if (beerName == null) continue
 
       val brewery = if (breweryName == null) {

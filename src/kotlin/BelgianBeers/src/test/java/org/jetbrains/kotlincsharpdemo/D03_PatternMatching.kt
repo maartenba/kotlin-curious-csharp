@@ -17,19 +17,18 @@ class DubbelBeer(beer: Beer) : BeerWithTaste(beer) {
 class TrippelBeer(beer: Beer) : BeerWithTaste(beer)
 val TrippelBeer.tripperName get() = beer.Name
 
+fun tasteBeer(beer: Beer): BeerWithTaste {
+  return when {
+    beer.Name.contains("dubbel", ignoreCase = true) -> DubbelBeer(beer)
+    beer.Name.contains("tripel", ignoreCase = true) -> TrippelBeer(beer)
+    else -> JustBeer(beer)
+  }
+}
+
+infix fun String.looksLike(s: String) = this.contains(s, ignoreCase = true)
+
 
 class D03_PatternMatching {
-
-  fun tasteBeer(beer: Beer): BeerWithTaste {
-    return when {
-      beer.Name.contains("dubbel", ignoreCase = true) -> DubbelBeer(beer)
-      beer.Name.contains("tripel", ignoreCase = true) -> TrippelBeer(beer)
-      else -> JustBeer(beer)
-    }
-  }
-
-  infix fun String.looksLike(s: String) = this.contains(s, ignoreCase = true)
-
   @Test
   fun patternMatching() {
 
