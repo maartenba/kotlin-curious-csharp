@@ -1,3 +1,5 @@
+package org.jetbrains.kotlincsharpdemo
+
 import org.jetbrains.kotlincsharpdemo.TestData.beerFlow
 import kotlin.test.Test
 

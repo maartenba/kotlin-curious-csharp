@@ -1,5 +1,5 @@
-import org.jetbrains.kotlincsharpdemo.Beer
-import org.jetbrains.kotlincsharpdemo.TestData
+package org.jetbrains.kotlincsharpdemo
+
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
