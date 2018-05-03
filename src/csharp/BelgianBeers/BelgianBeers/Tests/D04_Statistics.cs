@@ -22,12 +22,13 @@ namespace BelgianBeers.Tests
             var topRatedBreweries = from beer in BeerFlow
                 where beer.Brewery != null
                 group beer by beer.Brewery into beersPerBrewery
-                orderby beersPerBrewery.Average(beer => beer.Rating) descending
-                select beersPerBrewery.Key;
+                let average = beersPerBrewery.Average(beer => beer.Rating)
+                orderby average descending
+                select (brewery: beersPerBrewery.Key, average);
 
-            foreach (var brewery in topRatedBreweries.Take(10))
+            foreach (var result in topRatedBreweries.Take(10))
             {
-                _outputHelper.WriteLine(brewery.Name);
+                _outputHelper.WriteLine($"{result.average:P} - {result.brewery.Name}");
             }
         }
     }
