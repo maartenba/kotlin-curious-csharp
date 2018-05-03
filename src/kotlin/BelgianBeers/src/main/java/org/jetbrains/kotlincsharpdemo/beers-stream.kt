@@ -28,8 +28,8 @@ object BeersStream {
       while (parser.nextToken() == JsonToken.START_OBJECT) {
         val beerData = parser.readValueAsTree<ObjectNode>()
 
-        val breweryName = beerData["brewery"]?.asText()
-        val beerName = beerData["name"]?.asText()
+        val breweryName = beerData["brewery"]?.asText().fix()
+        val beerName = beerData["name"]?.asText().fix()
         val rating = beerData["rating"]?.asDouble()
         val votes = beerData["votes"]?.asDouble()
 
@@ -42,4 +42,6 @@ object BeersStream {
     }
   }.asSequence()
 
+
+  fun String?.fix() = this?.replace("&#40;", "'")?.replace("&#41;", "'")
 }
