@@ -1,6 +1,13 @@
 
-plugins {
-  kotlin("jvm") version "1.2.41" apply false
+buildscript {
+
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41")
+  }
 }
 
 subprojects {
