@@ -1,5 +1,6 @@
 package org.jetbrains.kotlincsharpdemo
 
+import org.jetbrains.kotlincsharpdemo.TestData.beerFlow
 import org.junit.Assert
 import org.junit.Test
 
@@ -30,7 +31,8 @@ class D02_Filtering {
 
 
 
-  fun Sequence<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
+  infix fun Sequence<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
+  inline fun Iterable<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
 
   @Test
   fun linqDSL_ex() {
@@ -59,6 +61,17 @@ class D02_Filtering {
             TestData.beerFlow
                     .filterBeer { `Rating is OK` and Popular }
                     .toList()
+
+    Assert.assertTrue(beersWithOkayRating.any())
+  }
+
+  infix fun <R: Comparable<R>> Sequence<Beer>.orderByBeer(f: Beer.() -> R) = sortedBy { it.f() }
+
+  @Test
+  fun linqDSL_ex3() {
+    val beersWithOkayRating =
+
+            beerFlow filterBeer { `Rating is OK` and Popular } orderByBeer { -Rating }
 
     Assert.assertTrue(beersWithOkayRating.any())
   }
