@@ -2,13 +2,22 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelgianBeers", "BelgianBeers\BelgianBeers.csproj", "{B10F7159-2DA2-423D-899C-6DA8EB5EC5F0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder1", "SolutionFolder1", "{3AD981FA-8DED-4A71-B0DB-45B8206E5817}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kotlin", "Kotlin", "{3AD981FA-8DED-4A71-B0DB-45B8206E5817}"
 ProjectSection(SolutionItems) = preProject
 	..\..\kotlin\BelgianBeers\build.gradle.kts = ..\..\kotlin\BelgianBeers\build.gradle.kts
-	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\breers-repository.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\breers-repository.kt
-	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\main.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\main.kt
 	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\model.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\model.kt
-	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\test.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\test.kt
+	..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\beers-stream.kt = ..\..\kotlin\BelgianBeers\src\main\java\org\jetbrains\kotlincsharpdemo\beers-stream.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v1.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v1.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v2.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v2.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v3.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Approach1_v3.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Invalid.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D01_LoadJson_Invalid.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D02_Filtering.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D02_Filtering.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D03_PatternMatching.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D03_PatternMatching.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D04_Statistics.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\D04_Statistics.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\JsonDSL.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\JsonDSL.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup.kt
+	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup_dataPath.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup_dataPath.kt
 EndProjectSection
 EndProject
 Global
