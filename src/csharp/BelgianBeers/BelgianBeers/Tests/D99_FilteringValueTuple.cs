@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using BelgianBeers.Models;
-using BelgianBeers.Repositories;
-using BelgianBeers.Tests.Utilities;
 using Xunit;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -12,10 +11,8 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LinqMethodsOnStreamOfValueTuple()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = BeersStream.FromFile(sourceData)
+            var beersWithOkayRating = Beers
                 .Where(tuple => tuple.rating > .50 && tuple.votes >= 10)
                 .Select(tuple => new Beer(tuple.beerName, new Brewery(tuple.breweryName), tuple.rating, tuple.votes))
                 .ToList();
@@ -26,10 +23,8 @@ namespace BelgianBeers.Tests
         [Fact]
         public void LinqMethodsOnStreamOfBeer()
         {
-            var sourceData = TestData.DetermineDataPath("beerswithnulls.json");
-            
             // Filtering data with LINQ method chains a DSL - Get beers with a rating > .50, and at least 10 votes for relevance
-            var beersWithOkayRating = BeersStream.FromFileAsBeers(sourceData)
+            var beersWithOkayRating = BeerFlow
                 .Where(beer => beer.Rating > .50 && beer.Votes >= 10)
                 .ToList();
             
