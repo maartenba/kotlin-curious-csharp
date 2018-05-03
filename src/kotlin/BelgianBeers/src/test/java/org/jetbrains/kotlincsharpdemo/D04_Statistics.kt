@@ -6,13 +6,13 @@ import org.junit.Test
 class D04_Statistics {
 
   inline fun <T> Iterable<T>.avg(f : T.() -> Double) : Double {
-    var d = 0.0
-    var c = 0
+    var sum = 0.0
+    var count = 0
     forEach {
-      c++
-      d += it.f()
+      count++
+      sum += it.f()
     }
-    return if (c == 0) 0.0 else d / c
+    return if (count == 0) 0.0 else sum / count
   }
 
 
