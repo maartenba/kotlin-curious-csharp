@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using BelgianBeers.Tests.Utilities;
 using Xunit;
 using Xunit.Abstractions;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -19,7 +19,7 @@ namespace BelgianBeers.Tests
         public void Statistics()
         {
             // Statistics:
-            var topRatedBreweries = from beer in TestData.BeerFlow
+            var topRatedBreweries = from beer in BeerFlow
                 where beer.Brewery != null
                 group beer by beer.Brewery into beersPerBrewery
                 orderby beersPerBrewery.Average(beer => beer.Rating) descending
