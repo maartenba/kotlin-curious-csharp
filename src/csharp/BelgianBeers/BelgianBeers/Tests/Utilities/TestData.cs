@@ -33,22 +33,28 @@ namespace BelgianBeers.Tests.Utilities
         {
             get
             {
-                var repository = new BeersRepository();
+                var _breweries = new HashSet<Brewery>();
+                var _beers = new HashSet<Beer>();
 
                 foreach (var (beerName, breweryName, rating, votes) in Beers)
                 {
                     // Store the brewery
+                    // TODO DEMO: Null checks here are still a bit ugly
                     var brewery = !string.IsNullOrEmpty(breweryName)
                         ? new Brewery(breweryName)
                         : null;
-                    repository.AddBrewery(brewery);
+                
+                    if (brewery != null)
+                    {
+                        _breweries.Add(brewery);
+                    }
 
                     // Store the beer
                     var beer = new Beer(beerName, brewery, rating, votes);
-                    repository.AddBeer(beer);
+                    _beers.Add(beer);
                 }
 
-                return repository.GetBeers();
+                return _beers;
             }
         }
     }
