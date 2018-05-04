@@ -7,7 +7,7 @@ plugins {
 
 
 dependencies {
-  add("expectedBy", project(":src:kotlin:BelgianBeers:common"))
+  expectedBy(project(":src:kotlin:BelgianBeers:common"))
 
   compile(kotlin("stdlib-jdk8"))
   compile(kotlin("reflect"))
