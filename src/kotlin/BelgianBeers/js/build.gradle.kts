@@ -13,6 +13,7 @@ plugins {
   id("org.jetbrains.kotlin.frontend")
 }
 
+operator fun File.div(s:String) = File(this, s)
 
 dependencies {
   expectedBy(project(":src:kotlin:BelgianBeers:common"))
@@ -35,9 +36,9 @@ tasks.withType<Kotlin2JsCompile> {
   kotlinOptions.main = "call"
 
   if (!name.contains("test", ignoreCase = true)) {
-    kotlinOptions.outputFile = "${project.buildDir.path}/js/${project.name}.js"
+    kotlinOptions.outputFile = "${project.buildDir}/js/js.js"
   } else {
-    kotlinOptions.outputFile = "${project.buildDir.path}/js-tests/${project.name}-tests.js"
+    kotlinOptions.outputFile = "${project.buildDir}/js/js-tests.js"
   }
 }
 
@@ -54,5 +55,42 @@ extensions.getByType(KotlinFrontendExtension::class.java).apply {
     this as WebPackExtension
 
     bundleName = "main"
+    contentPath = rootProject.file("data")
   }
+}
+
+
+task<Copy>(name = "copyJSONDataToBuild") {
+  from(fileTree(rootProject.file("data")))
+  into("${project.buildDir.path}/js")
+}
+
+tasks.getByName("classes").dependsOn("copyJSONDataToBuild")
+
+
+
+task<Exec>(name = "run_JS_Program") {
+  dependsOn("classes", "copyJSONDataToBuild")
+
+  //TODO: reuse path from the plugin
+  commandLine(listOf(
+          "node",
+          "js/js.js"
+  ))
+
+  workingDir(buildDir)
+}
+
+
+task<Exec>("run_Qunit") {
+  dependsOn(listOf("compileTestKotlin2Js", "copyJSONDataToBuild"))
+  commandLine(listOf(
+          "node",
+          "node_modules/qunit/bin/qunit",
+          "js/js-tests.js"
+  ))
+
+  environment("NODE_PATH", "$buildDir:$buildDir/js:$buildDir/node_modules")
+
+  workingDir(buildDir)
 }

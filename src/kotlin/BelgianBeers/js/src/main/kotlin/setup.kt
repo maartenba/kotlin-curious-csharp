@@ -1,19 +1,31 @@
 package org.jetbrains.kotlincsharpdemo
 
+import kotlin.coroutines.experimental.buildIterator
+
+external fun require(module:String):dynamic
+
 actual object TestDataPlatform {
 
   actual val beers: Sequence<BeerItem>
-    get() = sequenceOf()
+    get() {
+      val data = require("./beerswithnulls.json")
 
-  /*
-  tailrec fun determineDataPath(fileName: String,
-                                base: File = File("").canonicalFile): File {
+      return Sequence {
+        buildIterator {
 
-    val data = File(base, "data/$fileName")
-    if (data.isFile) return data
+          for (beerData in data) {
+            val breweryName = beerData["brewery"]
+            val beerName = beerData["name"]
+            val rating = beerData["rating"]
+            val votes = beerData["votes"]
 
-    return determineDataPath(
-            fileName = fileName,
-            base = base.parentFile ?: error("Failed to find data $fileName"))
-  }*/
+            yield(BeerItem(
+                    name = beerName,
+                    brewery = breweryName,
+                    rating = rating,
+                    votes = votes))
+          }
+        }
+      }
+    }
 }
