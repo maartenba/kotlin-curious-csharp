@@ -33,3 +33,16 @@ object TestData {
       }
     }
 }
+
+
+inline fun <R> logTime(block: () -> R): R {
+  val start = System.currentTimeMillis()
+  val r = block()
+  val time = System.currentTimeMillis() - start
+
+  println()
+  println("Execution time was: $time ms")
+  println()
+
+  return r
+}

@@ -22,7 +22,7 @@ object JsonDSL {
 
     lateinit var text : String
 
-    object:JsonRootBuilder {
+    object: JsonRootBuilder {
       override fun obj(builder: JsonObjectBuilder.() -> Unit) {
         text = buildJsonObjectImpl(builder, om).toPrettyString
       }
@@ -80,7 +80,7 @@ object JsonDSL {
 
   private fun buildJsonArrayImpl(builder: JSONArrayBuilder.() -> Unit, mapper: ObjectMapper) : JsonNode
           = mapper.nodeFactory.arrayNode().also { node ->
-    object:JSONArrayBuilder {
+    object: JSONArrayBuilder {
       override fun add(value: Int) { node.add(value) }
       override fun add(value: String) { node.add(value) }
       override fun add(value: Boolean) { node.add(value) }

@@ -1,24 +1,30 @@
 package org.jetbrains.kotlincsharpdemo
 
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.newFixedThreadPoolContext
 import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.kotlincsharpdemo.TestData.beerFlow
 import org.junit.Test
 import java.security.SecureRandom
+import kotlin.coroutines.experimental.suspendCoroutine
 
-class D05_Async {
+class D06_Callbacks {
   val random = SecureRandom.getInstance("SHA1PRNG")
 
-  suspend fun queryBeerAcl(beer: Beer): Double {
-    delay(random.nextDouble().run { 300 + this * 300 }.toInt())
-    return random.nextDouble().run { this * this * 0.2 }
+  val callbackPool = newFixedThreadPoolContext(5, "network")
+  val runPool = newFixedThreadPoolContext(10, "network")
+
+  fun queryBeerAcl(beer: Beer, callback: (Double) -> Unit) {
+    async(callbackPool) {
+      delay(random.nextDouble().run { 300 + this * 300 }.toInt())
+      callback(random.nextDouble().run { this * this * 0.2 })
+    }
   }
 
   @Test
-  fun coroutine_per_beer() = runBlocking(CommonPool) {
+  fun callback_per_beer() = runBlocking(runPool) {
 
     val allTasks = mutableListOf<Deferred<Pair<Beer, Double>>>()
 
@@ -27,11 +33,18 @@ class D05_Async {
       allTasks += async {
 
         //query a remote service to get beer strongness
-        val strong = queryBeerAcl(beer)
+        val strong = suspendCoroutine<Double> { task ->
+
+          //suspend execution to wait for the callback
+          queryBeerAcl(beer) { strong ->
+            task.resume(strong)
+          }
+
+
+        }
 
         return@async beer to strong
       }
-
     }
 
     println()
@@ -39,15 +52,13 @@ class D05_Async {
     println()
 
 
-    logTime {
-      allTasks.map { it.await() }
-    }
+    logTime { allTasks.map { it.await() } }
             .sortedBy { -it.second }
             .take(10)
             .forEachIndexed { idx, it ->
 
               println("${idx.inc().toString().padStart(5)}. " +
-                      "${it.second.toString().padStart(10)} " +
+                      "${it.second.toString().padStart(15)} " +
                       it.first.Name)
             }
 
