@@ -16,6 +16,8 @@ dependencies {
   expectedBy(project(":src:kotlin:BelgianBeers:common"))
 
   compile(kotlin("stdlib-js"))
+
+  compile(kotlin("test-js"))
   testCompile(kotlin("test-js"))
 }
 
@@ -26,10 +28,15 @@ kotlin {
 
 tasks.withType<Kotlin2JsCompile> {
   kotlinOptions.metaInfo = true
-  kotlinOptions.outputFile = "${project.buildDir.path}/js/${project.name}-${name}.js"
   kotlinOptions.sourceMap = true
   kotlinOptions.moduleKind = "commonjs"
   kotlinOptions.main = "call"
+
+  if (!name.contains("test", ignoreCase = true)) {
+    kotlinOptions.outputFile = "${project.buildDir.path}/js/${project.name}.js"
+  } else {
+    kotlinOptions.outputFile = "${project.buildDir.path}/js-tests/${project.name}-tests.js"
+  }
 }
 
 extensions.getByType(NpmExtension::class.java).apply {
@@ -37,3 +44,7 @@ extensions.getByType(NpmExtension::class.java).apply {
   devDependency("karma")
 }
 
+extensions.getByType(KotlinFrontendExtension::class.java).apply {
+//  downloadNodeJsVersion = "latest"
+  define("PRODUCTION", false)
+}
