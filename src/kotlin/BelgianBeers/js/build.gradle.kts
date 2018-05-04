@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.frontend.KotlinFrontendExtension
+import org.jetbrains.kotlin.gradle.frontend.config.BundleConfig
 import org.jetbrains.kotlin.gradle.frontend.npm.NpmExtension
 import org.jetbrains.kotlin.gradle.frontend.util.frontendExtension
+import org.jetbrains.kotlin.gradle.frontend.webpack.WebPackBundler
 import org.jetbrains.kotlin.gradle.frontend.webpack.WebPackExtension
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
@@ -47,4 +49,10 @@ extensions.getByType(NpmExtension::class.java).apply {
 extensions.getByType(KotlinFrontendExtension::class.java).apply {
 //  downloadNodeJsVersion = "latest"
   define("PRODUCTION", false)
+
+  bundle<BundleConfig>("webpack") {
+    this as WebPackExtension
+
+    bundleName = "main"
+  }
 }
