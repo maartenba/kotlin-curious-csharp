@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using BelgianBeers.Models;
-using BelgianBeers.Tests.Utilities;
 using Xunit;
 using Xunit.Abstractions;
+using static BelgianBeers.Tests.Utilities.TestData;
 
 namespace BelgianBeers.Tests
 {
@@ -21,11 +21,10 @@ namespace BelgianBeers.Tests
         public void PatternMatching()
         {
             // Get beers that are from brewery "Westmalle"
-            // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
-            var westmalleBeers = TestData.BeerFlow
-                .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
+            var westmalleBeers = BeerFlow
+                .Where(beer => string.Equals(beer.Brewery?.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            
+            //https://github.com/dotnet/csharplang/blob/master/proposals/nullable-reference-types.md
             // Pattern matching (on a property, not on type):
             foreach (var westmalleBeer in westmalleBeers.Select(PatchBeer))
             {

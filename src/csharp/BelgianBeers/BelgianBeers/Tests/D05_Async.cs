@@ -54,18 +54,6 @@ namespace BelgianBeers.Tests
             }
         }
 
-        private async Task LogElapsedTime(Func<Task> work)
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            await work();
-            
-            stopwatch.Stop();
-            
-            _outputHelper.WriteLine($"Execution time was: {stopwatch.ElapsedMilliseconds} ms");
-        }
-
         private async Task<double> RetrieveBeerStrongness(Beer beer)
         {
             await Task.Delay(_random.Next(10, 300));
