@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Xunit;
 using static BelgianBeers.Tests.Utilities.TestData;
 
@@ -29,6 +30,20 @@ namespace BelgianBeers.Tests
             // TODO DEMO: So many allocations - check in IL, mention https://github.com/antiufo/roslyn-linq-rewrite
 
             Assert.True(beersWithOkayRating.Any());
+        }
+
+        [Fact]
+        public void SideNote_Nullability()
+        {
+            // TODO DEMO: Needs null check - Brewery property can be null (use annotation so IDE warns us)
+
+            // C# 8.0 will have nullable reference types - https://github.com/dotnet/csharplang/blob/master/proposals/nullable-reference-types.md
+            
+            var westmalleBeers = BeerFlow
+                .Where(beer => string.Equals(beer.Brewery.Name, "Brouwerij der Trappisten van Westmalle", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            
+            Assert.True(westmalleBeers.Any());
         }
     }
 }
