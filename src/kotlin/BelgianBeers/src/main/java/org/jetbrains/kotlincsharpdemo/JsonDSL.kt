@@ -2,99 +2,75 @@ package org.jetbrains.kotlincsharpdemo
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import java.io.StringWriter
 
 object JsonDSL {
   object TNULL
 
-  @DslMarker annotation class ArrayBuilder
-  @DslMarker annotation class ObjectBuilder
-  @DslMarker annotation class RootBuilder
+  class JsonObjectBuilder(private val mapper: ObjectMapper,
+                          private val node: ObjectNode) {
+    val NULL get() = TNULL
 
-  @RootBuilder
-  interface JsonRootBuilder {
-    fun obj(builder: JsonObjectBuilder.() -> Unit)
-    fun array(builder: JSONArrayBuilder.() -> Unit)
+    operator fun String.rem(value: TNULL) { node.set(this, mapper.nodeFactory.nullNode()) }
+    operator fun String.rem(value: JsonNode) { node.set(this, value) }
+    operator fun String.rem(value: String) { node.put(this, value) }
+    operator fun String.rem(value: Int) { node.put(this, value) }
+    operator fun String.rem(value: Boolean) { node.put(this, value) }
+
+    fun obj(builder: JsonObjectBuilder.() -> Unit) = buildJsonObjectImpl(builder, mapper)
+    fun array(builder: JSONArrayBuilder.() -> Unit) = buildJsonArrayImpl(builder, mapper)
+  }
+
+  class JSONArrayBuilder(private val mapper: ObjectMapper,
+                         private val node: ArrayNode) {
+    val NULL get() = TNULL
+
+    fun add(value: Int) { node.add(value) }
+    fun add(value: String) { node.add(value) }
+    fun add(value: Boolean) { node.add(value) }
+    fun add(value: JsonNode) { node.add(value) }
+    fun add(value: TNULL) { node.add(mapper.nodeFactory.nullNode()) }
+
+    fun obj(builder: JsonObjectBuilder.() -> Unit) { node.add(buildJsonObjectImpl(builder, mapper)) }
+    fun array(builder: JSONArrayBuilder.() -> Unit) { node.add(buildJsonArrayImpl(builder, mapper)) }
+  }
+
+  class JsonRootBuilder {
+    private val mapper = ObjectMapper()
+    internal lateinit var text : String
+
+    fun obj(builder: JsonObjectBuilder.() -> Unit) {
+      text = buildJsonObjectImpl(builder, mapper).toPrettyString
+    }
+
+    fun array(builder: JSONArrayBuilder.() -> Unit) {
+      text = buildJsonArrayImpl(builder, mapper).toPrettyString
+    }
+
+    private val JsonNode.toPrettyString
+      get() = StringWriter().use { sw ->
+        mapper.factory.createGenerator(sw).useDefaultPrettyPrinter().use { it.writeTree(this) }
+        sw.toString()
+      }
   }
 
   fun json(builder : JsonRootBuilder.() -> Unit) : String {
-    val om = ObjectMapper()
-
-    lateinit var text : String
-
-    object: JsonRootBuilder {
-      override fun obj(builder: JsonObjectBuilder.() -> Unit) {
-        text = buildJsonObjectImpl(builder, om).toPrettyString
-      }
-
-      override fun array(builder: JSONArrayBuilder.() -> Unit) {
-        text = buildJsonArrayImpl(builder, om).toPrettyString
-      }
-    }.builder()
-
-    return text
+    val host = JsonRootBuilder()
+    host.builder()
+    return host.text
   }
 
-  @ObjectBuilder
-  interface JsonObjectBuilder {
-    val NULL get() = TNULL
-
-    operator fun String.rem(value : TNULL)
-    operator fun String.rem(value : String)
-    operator fun String.rem(value : Int)
-    operator fun String.rem(value : Boolean)
-    operator fun String.rem(value : JsonNode)
-
-    fun obj(builder : JsonObjectBuilder.() -> Unit) : JsonNode
-    fun array(builder : JSONArrayBuilder.() -> Unit) : JsonNode
+  private fun buildJsonObjectImpl(builder : JsonObjectBuilder.() -> Unit, mapper : ObjectMapper) : JsonNode {
+    val node = mapper.nodeFactory.objectNode()
+    JsonObjectBuilder(mapper, node).builder()
+    return node
   }
 
-  @ArrayBuilder
-  interface JSONArrayBuilder {
-    val NULL get() = TNULL
-
-    fun obj(builder : JsonObjectBuilder.() -> Unit)
-    fun array(builder : JSONArrayBuilder.() -> Unit)
-
-    fun add(value : TNULL)
-    fun add(value : Int)
-    fun add(value : String)
-    fun add(value : Boolean)
-    fun add(value : JsonNode)
-  }
-
-  private fun buildJsonObjectImpl(builder : JsonObjectBuilder.() -> Unit, mapper : ObjectMapper) : JsonNode
-          = mapper.nodeFactory.objectNode().also { node ->
-
-    object: JsonObjectBuilder {
-      override fun String.rem(value: TNULL) { node.set(this, mapper.nodeFactory.nullNode()) }
-      override fun String.rem(value: JsonNode) { node.set(this, value) }
-      override fun String.rem(value: String) { node.put(this, value) }
-      override fun String.rem(value: Int) { node.put(this, value) }
-      override fun String.rem(value: Boolean) { node.put(this, value) }
-
-      override fun obj(builder: JsonObjectBuilder.() -> Unit) = buildJsonObjectImpl(builder, mapper)
-      override fun array(builder: JSONArrayBuilder.() -> Unit) = buildJsonArrayImpl(builder, mapper)
-      }.builder()
-  }
-
-  private fun buildJsonArrayImpl(builder: JSONArrayBuilder.() -> Unit, mapper: ObjectMapper) : JsonNode
-          = mapper.nodeFactory.arrayNode().also { node ->
-    object: JSONArrayBuilder {
-      override fun add(value: Int) { node.add(value) }
-      override fun add(value: String) { node.add(value) }
-      override fun add(value: Boolean) { node.add(value) }
-      override fun add(value: JsonNode) { node.add(value) }
-      override fun add(value: TNULL) { node.add(mapper.nodeFactory.nullNode()) }
-
-      override fun obj(builder: JsonObjectBuilder.() -> Unit) { node.add(buildJsonObjectImpl(builder, mapper)) }
-      override fun array(builder: JSONArrayBuilder.() -> Unit) { node.add(buildJsonArrayImpl(builder, mapper)) }
-    }.builder()
-  }
-
-  val JsonNode.toPrettyString
-          get() = StringWriter().use { sw ->
-    ObjectMapper().factory.createGenerator(sw).useDefaultPrettyPrinter().use { it.writeTree(this) }
-    sw.toString()
+  private fun buildJsonArrayImpl(builder: JSONArrayBuilder.() -> Unit, mapper: ObjectMapper) : JsonNode {
+    val node = mapper.nodeFactory.arrayNode()
+    JSONArrayBuilder(mapper, node).builder()
+    return node
   }
 }
