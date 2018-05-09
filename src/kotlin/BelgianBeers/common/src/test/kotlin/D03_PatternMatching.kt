@@ -36,18 +36,18 @@ class D03_PatternMatching {
 
     val beersWithTaste = TestData.beerFlow.map(::tasteBeer).toList()
 
-    beersWithTaste.filterIsInstance<TrippelBeer>().forEach {
+    beersWithTaste.filterIsInstance<TrippelBeer>().take(5).forEach {
       println("Tripper: $it")
     }
 
-    beersWithTaste.filterIsInstance<DubbelBeer>().forEach {
+    beersWithTaste.filterIsInstance<DubbelBeer>().take(5).forEach {
       println("Dubbel: $it")
     }
 
     val westmalleBeers = beersWithTaste.filter { it.beer.Name looksLike "Brouwerij der Trappisten van Westmalle" }
 
     // Pattern matching (on a property, not on type):
-    for (westmalleBeer in westmalleBeers) {
+    for (westmalleBeer in westmalleBeers.take(10)) {
       when {
         westmalleBeer is DubbelBeer ->
           println(westmalleBeer.dubbelName)
