@@ -67,6 +67,13 @@ class D02_Filtering {
 
   infix fun <R: Comparable<R>> Sequence<Beer>.orderByBeer(f: Beer.() -> R) = sortedBy { it.f() }
 
+
+
+
+  
+
+
+
   @Test
   fun linqDSL_ex3() {
     val beersWithOkayRating =
