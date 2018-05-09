@@ -27,7 +27,6 @@ class D01_LoadJson_Invalid {
 
   @Test
   fun testNullsFields() {
-    //@Language("JSON")
     val json = "[{\"name\": null, " +
             "\"brewery\": null, " +
             "\"votes\": null, " +
