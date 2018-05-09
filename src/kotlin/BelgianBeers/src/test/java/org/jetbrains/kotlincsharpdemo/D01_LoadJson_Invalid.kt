@@ -27,7 +27,10 @@ class D01_LoadJson_Invalid {
 
   @Test
   fun testNullsFields() {
-    BeersStream.fromString("[{\"name\": null, \"brewery\": null, \"votes\": null, \"rating\": null}]")
+    //@Language("JSON")
+    val json = "[{\"name\": null, \"brewery\": null, \"votes\": null, \"rating\": null}]"
+
+    BeersStream.fromString(json)
   }
 
   @Test
