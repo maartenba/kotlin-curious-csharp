@@ -14,7 +14,7 @@ class D06_Callbacks {
   val random = SecureRandom.getInstance("SHA1PRNG")
 
   val callbackPool = newFixedThreadPoolContext(5, "network")
-  val runPool = newFixedThreadPoolContext(10, "network")
+  val runPool = newFixedThreadPoolContext(16, "network")
 
   fun queryBeerAcl(beer: Beer, callback: (Double) -> Unit) {
     async(callbackPool) {
@@ -58,7 +58,7 @@ class D06_Callbacks {
             .forEachIndexed { idx, it ->
 
               println("${idx.inc().toString().padStart(5)}. " +
-                      "${it.second.toString().padStart(15)} " +
+                      "${it.second.toString().take(5).padStart(7)} " +
                       it.first.Name)
             }
 
