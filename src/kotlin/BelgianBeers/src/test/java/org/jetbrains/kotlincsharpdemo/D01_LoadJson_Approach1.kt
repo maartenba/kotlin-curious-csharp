@@ -6,6 +6,11 @@ import org.junit.Test
 class D01_LoadJson_Approach1 {
 
   @Test
+  fun `I line to call test readable`() {
+
+  }
+
+  @Test
   fun load() {
     val breweries = mutableMapOf<Brewery, Brewery>()
     val beers = LinkedHashSet<Beer>()
