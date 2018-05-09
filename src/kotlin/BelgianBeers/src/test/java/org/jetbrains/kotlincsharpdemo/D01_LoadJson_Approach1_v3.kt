@@ -13,8 +13,8 @@ class D01_LoadJson_Approach1_v3 {
       beerName?.let {
         Beer(
                 Name = beerName,
-                Brewery = breweryName?.
-                        let { Brewery(it) }?.
+                Brewery = breweryName ?.
+                        let { Brewery(it) } ?.
                         let { breweries.getOrPut(it) { it } },
                 Rating = rating ?: 0.0,
                 Votes = votes ?: 0.0)
