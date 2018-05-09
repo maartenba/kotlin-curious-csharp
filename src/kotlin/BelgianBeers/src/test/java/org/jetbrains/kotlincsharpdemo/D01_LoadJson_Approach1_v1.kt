@@ -8,7 +8,8 @@ class D01_LoadJson_Approach1_v1 {
   fun load() {
     val breweries = mutableMapOf<Brewery, Brewery>()
 
-    val beers = TestData.beers.mapNotNull { (beerName, breweryName, rating, votes)  ->
+    val beers = TestData.beers.mapNotNull {
+      (beerName, breweryName, rating, votes)  ->
       if (beerName == null) return@mapNotNull null
 
       val brewery = if (breweryName == null) {

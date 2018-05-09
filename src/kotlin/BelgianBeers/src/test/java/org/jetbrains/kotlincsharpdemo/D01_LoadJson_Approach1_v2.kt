@@ -9,7 +9,8 @@ class D01_LoadJson_Approach1_v2 {
     val breweries = mutableMapOf<Brewery, Brewery>()
     val beerNames = mutableSetOf<String>()
 
-    val beers = TestData.beers.mapNotNull { (beerName, breweryName, rating, votes) ->
+    val beers = TestData.beers.mapNotNull {
+      (beerName, breweryName, rating, votes) ->
       when {
         beerName == null -> null
 
@@ -17,7 +18,9 @@ class D01_LoadJson_Approach1_v2 {
 
         else -> Beer(
                 Name = beerName,
-                Brewery = breweryName?.let { Brewery(it) }?.let { breweries.getOrPut(it) { it } },
+                Brewery = breweryName ?.
+                        let { Brewery(it) } ?.
+                        let { breweries.getOrPut(it) { it } },
                 Rating = rating ?: 0.0,
                 Votes = votes ?: 0.0)
 
