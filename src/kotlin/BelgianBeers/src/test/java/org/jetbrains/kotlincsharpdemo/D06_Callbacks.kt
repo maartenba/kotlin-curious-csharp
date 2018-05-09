@@ -30,7 +30,7 @@ class D06_Callbacks {
 
     for (beer in beerFlow.toList()) {
 
-      allTasks += async {
+      allTasks += async(runPool) {
 
         //query a remote service to get beer strongness
         val strong = suspendCoroutine<Double> { task ->

@@ -27,7 +27,7 @@ class D05_Async {
 
       for (beer in beerFlow.toList()) {
 
-        allTasks += async {
+        allTasks += async(threadPool) {
 
           //query a remote service to get beer strongness
           val strong = queryBeerAcl(beer)
