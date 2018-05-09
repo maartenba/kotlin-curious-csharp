@@ -20,6 +20,11 @@ ProjectSection(SolutionItems) = preProject
 	..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup_dataPath.kt = ..\..\kotlin\BelgianBeers\src\test\java\org\jetbrains\kotlincsharpdemo\setup_dataPath.kt
 EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Data", "_Data", "{66C95C97-070C-4EF4-98F1-2AA757281C7C}"
+ProjectSection(SolutionItems) = preProject
+	..\..\..\data\beerswithnulls.json = ..\..\..\data\beerswithnulls.json
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
