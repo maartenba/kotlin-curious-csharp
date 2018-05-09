@@ -34,11 +34,11 @@ class D03_PatternMatching {
 
     val beersWithTaste = TestData.beerFlow.map(::tasteBeer).toList()
 
-    beersWithTaste.filterIsInstance<TrippelBeer>().forEach {
-      println("Tripper: $it")
+    beersWithTaste.filterIsInstance<TrippelBeer>().take(5).forEach {
+      println("Triper: $it")
     }
 
-    beersWithTaste.filterIsInstance<DubbelBeer>().forEach {
+    beersWithTaste.filterIsInstance<DubbelBeer>().take(5).forEach {
       println("Dubbel: $it")
     }
 
