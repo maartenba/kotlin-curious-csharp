@@ -16,21 +16,6 @@ namespace BelgianBeers.Tests
         {
             _outputHelper = outputHelper;
         }
-
-        private Beer PatchBeer(Beer beer)
-        {
-            if (beer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return new DubbelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
-            }
-            
-            if (beer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return new TripelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
-            }
-
-            return beer;
-        }
         
         [Fact]
         public void PatternMatching()
@@ -60,6 +45,20 @@ namespace BelgianBeers.Tests
             
             Assert.True(westmalleBeers.Any());
         }
-        
+
+        private Beer PatchBeer(Beer beer)
+        {
+            if (beer.Name.IndexOf("dubbel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return new DubbelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+            
+            if (beer.Name.IndexOf("tripel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return new TripelBeer(beer.Name, beer.Brewery, beer.Rating, beer.Votes);
+            }
+
+            return beer;
+        }
     }
 }
