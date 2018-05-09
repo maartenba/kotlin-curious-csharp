@@ -1,5 +1,6 @@
 package org.jetbrains.kotlincsharpdemo
 
+import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlincsharpdemo.JsonDSL.json
 import org.junit.Test
 
@@ -18,7 +19,10 @@ class D01_LoadJson_Invalid {
 
   @Test
   fun testNulls() {
-    BeersStream.fromString("[{}]")
+    @Language("JSON")
+    val json = "[\n  {}\n]"
+
+    BeersStream.fromString(json)
   }
 
   @Test
