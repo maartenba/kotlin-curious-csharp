@@ -32,7 +32,6 @@ class D02_Filtering {
 
 
   infix fun Sequence<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
-  inline fun Iterable<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
 
   @Test
   fun linqDSL_ex() {
@@ -79,6 +78,19 @@ class D02_Filtering {
     val beersWithOkayRating =
 
             beerFlow filterBeer { `Rating is OK` and Popular } orderByBeer { -Rating }
+
+    Assert.assertTrue(beersWithOkayRating.any())
+  }
+
+
+
+  inline infix fun Iterable<Beer>.filterBeer(f: Beer.() -> Boolean) = filter { it.f() }
+
+  @Test
+  fun linqDSL_ex4_inline() {
+    val beersWithOkayRating =
+
+            beerFlow.toList() filterBeer { `Rating is OK` and Popular }
 
     Assert.assertTrue(beersWithOkayRating.any())
   }
