@@ -28,6 +28,7 @@ fun tasteBeer(beer: Beer): BeerWithTaste {
 
 infix fun String.looksLike(s: String) = this.contains(s, ignoreCase = true)
 infix fun BeerWithTaste.looksLike(s: String) = beer.Name.contains(s, ignoreCase = true)
+infix fun BeerWithTaste.smellsLike(s: String) = beer.Name.contains(s, ignoreCase = true)
 
 
 class D03_PatternMatching {
@@ -43,11 +44,9 @@ class D03_PatternMatching {
     // Pattern matching (on a property, not on type):
     for (westmalleBeer in westmalleBeers) {
       when {
-        westmalleBeer is DubbelBeer ->
-          println(westmalleBeer.dubbelName)
+        westmalleBeer is DubbelBeer -> println(westmalleBeer.dubbelName)
 
-        westmalleBeer is TrippelBeer && westmalleBeer.beer.Name.contains("tripel", ignoreCase = true) ->
-          println(westmalleBeer.tripperName)
+        westmalleBeer is TrippelBeer && westmalleBeer looksLike "tripel" -> println(westmalleBeer.tripperName)
 
         else -> {
           //No beer today!
