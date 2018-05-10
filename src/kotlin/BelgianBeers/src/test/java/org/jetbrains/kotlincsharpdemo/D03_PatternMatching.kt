@@ -1,5 +1,6 @@
 package org.jetbrains.kotlincsharpdemo
 
+import org.jetbrains.kotlincsharpdemo.TestData.beerFlow
 import org.junit.Test
 
 sealed class BeerWithTaste(val beer: Beer) {
@@ -26,32 +27,26 @@ fun tasteBeer(beer: Beer): BeerWithTaste {
 }
 
 infix fun String.looksLike(s: String) = this.contains(s, ignoreCase = true)
+infix fun BeerWithTaste.looksLike(s: String) = beer.Name.contains(s, ignoreCase = true)
+infix fun BeerWithTaste.smellsLike(s: String) = beer.Name.contains(s, ignoreCase = true)
 
 
 class D03_PatternMatching {
   @Test
   fun patternMatching() {
 
-    val beersWithTaste = TestData.beerFlow.map(::tasteBeer).toList()
-
-    beersWithTaste.filterIsInstance<TrippelBeer>().take(5).forEach {
-      println("Triper: $it")
-    }
-
-    beersWithTaste.filterIsInstance<DubbelBeer>().take(5).forEach {
-      println("Dubbel: $it")
-    }
-
-    val westmalleBeers = beersWithTaste.filter { it.beer.Name looksLike "Brouwerij der Trappisten van Westmalle" }
+    val westmalleBeers = beerFlow
+            .map(::tasteBeer)
+            .filter {
+              it looksLike "Brouwerij der Trappisten van Westmalle"
+            }
 
     // Pattern matching (on a property, not on type):
     for (westmalleBeer in westmalleBeers) {
       when {
-        westmalleBeer is DubbelBeer ->
-          println(westmalleBeer.dubbelName)
+        westmalleBeer is DubbelBeer -> println(westmalleBeer.dubbelName)
 
-        westmalleBeer is TrippelBeer && westmalleBeer.beer.Name.contains("tripel", ignoreCase = true) ->
-          println(westmalleBeer.tripperName)
+        westmalleBeer is TrippelBeer && westmalleBeer looksLike "tripel" -> println(westmalleBeer.tripperName)
 
         else -> {
           //No beer today!
